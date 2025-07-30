@@ -118,6 +118,7 @@ cd amigo-secreto
 
 ### 🌐 Disponível em:
 > Vercel: https://amigo-secreto-phi-cyan.vercel.app/
+
 > Github Pages: https://dessima.github.io/amigo-secreto/
 ---
 ## 📄 Licença
