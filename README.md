@@ -117,7 +117,7 @@ cd amigo-secreto
 * Interface adaptável para uso em dispositivos móveis
 
 ### 🌐 Disponível em:
-> 
+> https://amigo-secreto-phi-cyan.vercel.app/
 ---
 ## 📄 Licença
 
