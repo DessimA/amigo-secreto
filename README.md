@@ -117,7 +117,8 @@ cd amigo-secreto
 * Interface adaptável para uso em dispositivos móveis
 
 ### 🌐 Disponível em:
-> https://amigo-secreto-phi-cyan.vercel.app/
+> Vercel: https://amigo-secreto-phi-cyan.vercel.app/
+> Github Pages: https://dessima.github.io/amigo-secreto/
 ---
 ## 📄 Licença
 
