@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigo Secreto - Cyberpunk Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-image"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Amigo Secreto</h1>
+            <p class="subtitle">Cyberpunk Edition - Descubra quem é seu amigo secreto</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <div class="input-group">
+                    <label for="nomeAmigo">Digite o nome do amigo:</label>
+                    <input type="text" id="nomeAmigo" class="input-field" placeholder="Nome do amigo..." maxlength="50">
+                </div>
+                
+                <button type="button" onclick="adicionarAmigo()" class="btn btn-add" id="btnAdicionar">
+                    <span>Adicionar</span>
+                </button>
+                
+                <div class="friends-list">
+                    <h3>Lista de Amigos</h3>
+                    <ul id="listaAmigos"></ul>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="button" onclick="sortearAmigo()" class="btn btn-sortear" id="btnSortear">
+                        <img src="assets/play-game.png" alt="Play" class="btn-icon">
+                        <span>Sortear Amigo</span>
+                    </button>
+                    
+                    <button type="button" onclick="reiniciarJogo()" class="btn btn-reiniciar" id="btnReiniciar">
+                        <img src="assets/reload-game.png" alt="Reload" class="btn-icon">
+                        <span>Reiniciar</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2 class="result-title">Resultado do Sorteio</h2>
+                <div id="resultado">
+                    <p class="waiting-message">Aguardando sorteio...</p>
+                </div>
+                <div id="statusJogo">
+                    <p class="status-message">Adicione amigos para começar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
