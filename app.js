@@ -13,7 +13,7 @@ function adicionarAmigo() {
     }
     const nome = nomeAmigoInput.value.trim();
     if (nome === '') {
-        exibirNotificacao('Por favor, insira um nome válido.');
+        exibirNotificacao('Por favor, insira um nome.');
         nomeAmigoInput.focus();
         return;
     }
@@ -49,14 +49,15 @@ function limparNotificacao() {
 
 function atualizarListaAmigos() {
     listaAmigosUl.innerHTML = '';
-    amigos.forEach(amigo => {
+    for (let i = 0; i < amigos.length; i++) {
+        const amigo = amigos[i];
         const li = document.createElement('li');
         li.textContent = amigo;
         if (amigosSorteados.includes(amigo)) {
             li.classList.add('sorteado');
         }
         listaAmigosUl.appendChild(li);
-    });
+    }
 }
 
 function sortearAmigo() {
