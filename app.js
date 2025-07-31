@@ -3,37 +3,48 @@ let amigosSorteados = [];
 let jogoIniciado = false;
 
 // Elementos do DOM
-let nomeAmigoInput, btnAdd, btnSortear, btnReiniciar, listaAmigosUl, resultadoDiv, statusJogoDiv;
+let nomeAmigoInput, btnAdd, btnSortear, btnReiniciar, listaAmigosUl, resultadoDiv, statusJogoDiv, notificacaoDiv, btnOcultarResultado;
 
 function adicionarAmigo() {
+    limparNotificacao();
     if (jogoIniciado) {
-        alert('Não é possível adicionar amigos após o início do sorteio!');
+        exibirNotificacao('Não é possível adicionar amigos após o início do sorteio!');
         return;
     }
-    
     const nome = nomeAmigoInput.value.trim();
-    
     if (nome === '') {
-        alert('Por favor, insira um nome válido.');
+        exibirNotificacao('Por favor, insira um nome válido.');
         nomeAmigoInput.focus();
         return;
     }
-    
     // Verificação robusta com normalização (case-insensitive)
     const nomeNormalizado = nome.toUpperCase();
     if (amigos.some(amigo => amigo.toUpperCase() === nomeNormalizado)) {
-        alert('Este nome já foi adicionado!');
+        exibirNotificacao('Este nome já foi adicionado!');
         nomeAmigoInput.value = '';
         nomeAmigoInput.focus();
         return;
     }
-    
     amigos.push(nome); // Armazena a versão original
     nomeAmigoInput.value = '';
     atualizarListaAmigos();
     atualizarControles();
     atualizarStatus();
     nomeAmigoInput.focus();
+    limparNotificacao();
+}
+function exibirNotificacao(msg) {
+    if (notificacaoDiv) {
+        notificacaoDiv.textContent = msg;
+        notificacaoDiv.style.display = 'block';
+    }
+}
+
+function limparNotificacao() {
+    if (notificacaoDiv) {
+        notificacaoDiv.textContent = '';
+        notificacaoDiv.style.display = 'none';
+    }
 }
 
 function atualizarListaAmigos() {
@@ -115,8 +126,14 @@ function atualizarControles() {
 function mostrarResultado(amigo) {
     if (amigo) {
         resultadoDiv.innerHTML = `<p class="result-name">${amigo}</p>`;
+        if (btnOcultarResultado) {
+            btnOcultarResultado.style.display = 'inline-block';
+        }
     } else {
         resultadoDiv.innerHTML = '<p class="waiting-message">Aguardando sorteio...</p>';
+        if (btnOcultarResultado) {
+            btnOcultarResultado.style.display = 'none';
+        }
     }
 }
 
@@ -142,15 +159,26 @@ document.addEventListener('DOMContentLoaded', () => {
     listaAmigosUl = document.getElementById('listaAmigos');
     resultadoDiv = document.getElementById('resultado');
     statusJogoDiv = document.getElementById('statusJogo');
-    
-    // Apenas o evento de Enter no input
+    notificacaoDiv = document.getElementById('notificacao');
+    btnOcultarResultado = document.getElementById('btnOcultarResultado');
+
+    if (btnOcultarResultado) {
+        btnOcultarResultado.addEventListener('click', () => {
+            resultadoDiv.innerHTML = '<p class="waiting-message">Aguardando sorteio...</p>';
+            btnOcultarResultado.style.display = 'none';
+        });
+    }
+
     nomeAmigoInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             adicionarAmigo();
+        } else {
+            limparNotificacao();
         }
     });
-    
+    nomeAmigoInput.addEventListener('input', limparNotificacao);
+
     atualizarListaAmigos();
     mostrarResultado(null);
     atualizarControles();

@@ -20,6 +20,7 @@
                 <div class="input-group">
                     <label for="nomeAmigo">Digite o nome do amigo:</label>
                     <input type="text" id="nomeAmigo" class="input-field" placeholder="Nome do amigo..." maxlength="50">
+                    <div id="notificacao" style="color:#ff3366; font-size:1rem; margin-top:6px; min-height:22px; display:none;"></div>
                 </div>
                 
                 <button type="button" onclick="adicionarAmigo()" class="btn btn-add" id="btnAdicionar">
@@ -46,6 +47,7 @@
             
             <div class="result-section">
                 <h2 class="result-title">Resultado do Sorteio</h2>
+                <button type="button" id="btnOcultarResultado" class="btn btn-add" style="margin-bottom:15px; display:none;">Ocultar Resultado</button>
                 <div id="resultado">
                     <p class="waiting-message">Aguardando sorteio...</p>
                 </div>
