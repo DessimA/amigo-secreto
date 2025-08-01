@@ -113,12 +113,17 @@ function sortearAmigo() {
     }
 }
 
-function reiniciarJogo() {
-    if (amigos.length > 0 || amigosSorteados.length > 0) {
-        const confirmar = confirm('Tem certeza que deseja reiniciar o jogo?');
-        if (!confirmar) return;
-    }
-    
+function abrirModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.style.display = 'block';
+}
+
+function fecharModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function executarReinicio() {
     amigos = [];
     amigosSorteados = [];
     jogoIniciado = false;
@@ -128,6 +133,15 @@ function reiniciarJogo() {
     atualizarStatus();
     nomeAmigoInput.value = '';
     nomeAmigoInput.focus();
+    fecharModal();
+}
+
+function reiniciarJogo() {
+    if (amigos.length > 0 || amigosSorteados.length > 0) {
+        abrirModal();
+    } else {
+        executarReinicio();
+    }
 }
 
 function atualizarControles() {
@@ -189,6 +203,28 @@ document.addEventListener('DOMContentLoaded', () => {
     statusJogoDiv = document.getElementById('statusJogo');
     notificacaoDiv = document.getElementById('notificacao');
     btnOcultarResultado = document.getElementById('btnOcultarResultado');
+
+    // Configurar eventos do modal
+    const modal = document.getElementById('confirmModal');
+    const btnConfirm = document.getElementById('confirmReiniciar');
+    const btnCancel = document.getElementById('cancelReiniciar');
+
+    if (btnConfirm) {
+        btnConfirm.addEventListener('click', executarReinicio);
+    }
+    
+    if (btnCancel) {
+        btnCancel.addEventListener('click', fecharModal);
+    }
+
+    // Fechar modal ao clicar fora dele
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+    }
 
     if (btnOcultarResultado) {
         btnOcultarResultado.addEventListener('click', () => {

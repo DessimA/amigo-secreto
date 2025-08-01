@@ -1,3 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #0a0a14 0%, #0c1221 100%);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #00ccff;
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+    text-align: center;
+    min-width: 300px;
+}
+
+.modal-content h2 {
+    font-family: 'Orbitron', monospace;
+    color: #00ccff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.modal-content p {
+    color: #e0e0e0;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-buttons .btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    min-width: 140px;
+}
+
+.btn-confirm {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    color: #ffffff;
+    border: 2px solid #ff0000;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4),
+                inset 0 0 10px rgba(255, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-confirm:hover {
+    background: linear-gradient(135deg, #ff1a1a 0%, #e60000 100%);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.6),
+                inset 0 0 15px rgba(255, 0, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2e 100%);
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    text-shadow: 0 0 5px rgba(0, 204, 255, 0.7);
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.2),
+                inset 0 0 10px rgba(0, 204, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: linear-gradient(135deg, #3a3a4a 0%, #2a2a3e 100%);
+    box-shadow: 0 0 30px rgba(0, 204, 255, 0.3),
+                inset 0 0 15px rgba(0, 204, 255, 0.2);
+    transform: translateY(-2px);
+}
+
 /* Estilos para lista de amigos */
 .amigo-item {
   position: relative;
@@ -30,7 +121,6 @@
   width: auto;
   z-index: 2;
 }
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
 
 * {
     margin: 0;
