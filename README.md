@@ -84,6 +84,173 @@ cd amigo-secreto
 
 ---
 
+### 🔧 Estrutura Base do Código
+
+#### Variáveis Globais
+```javascript
+let amigos = [];           // Array que armazena todos os participantes
+let amigosSorteados = []; // Array que armazena participantes já sorteados
+let jogoIniciado = false; // Controla o estado do jogo
+```
+
+### 🎯 Principais Funcionalidades
+
+#### 1. Inicialização (`DOMContentLoaded`)
+- Carrega todos os elementos do DOM necessários
+- Configura eventos dos botões e modal
+- Inicializa o estado do jogo
+
+#### 2. Adição de Participantes (`adicionarAmigo()`)
+1. Valida se o jogo já foi iniciado
+2. Remove espaços em branco do nome
+3. Verifica se o nome está vazio
+4. Normaliza o nome para verificar duplicatas
+5. Adiciona o participante se todas as validações passarem
+6. Atualiza a interface
+
+#### 3. Sistema de Sorteio (`sortearAmigo()`)
+1. Verifica se há mínimo de 3 participantes
+2. Marca o jogo como iniciado
+3. Filtra participantes ainda não sorteados
+4. Realiza sorteio aleatório
+5. Atualiza a interface com animações
+
+#### 4. Gerenciamento de Estado
+- `atualizarControles()`: Gerencia estado dos botões
+- `atualizarStatus()`: Atualiza mensagens de status
+- `atualizarListaAmigos()`: Atualiza lista visual de participantes
+
+#### 5. Sistema de Notificações
+```javascript
+function exibirNotificacao(msg) {
+    notificacaoDiv.textContent = msg;
+    notificacaoDiv.style.display = 'block';
+}
+```
+
+### 🔄 Fluxo de Dados
+
+1. **Entrada de Dados**
+   - Input de texto para nomes
+   - Validações em tempo real
+   - Eventos de teclado (Enter) e clique
+
+2. **Processamento**
+   - Arrays para armazenamento (`amigos` e `amigosSorteados`)
+   - Lógica de sorteio com `Math.random()`
+   - Verificações de estado do jogo
+
+3. **Saída**
+   - Atualização da lista de participantes
+   - Feedback visual (notificações)
+   - Animações e efeitos visuais
+
+### 📊 Diagrama de Fluxo
+
+```mermaid
+flowchart TB
+    %% Estilização
+    classDef estado fill:#2d2d2d,stroke:#ff0099,color:#fff
+    classDef acao fill:#1a1a1a,stroke:#00ffff,color:#fff
+    classDef decisao fill:#2d2d2d,stroke:#ffff00,color:#fff
+    classDef evento fill:#1a1a1a,stroke:#00ff00,color:#fff
+
+    %% Eventos Iniciais
+    Start([Início]):::evento
+    DOMLoaded([DOMContentLoaded]):::evento
+    
+    %% Estados e Ações
+    InitElements[Inicializa Elementos DOM]:::acao
+    SetupListeners[Configura Event Listeners]:::acao
+    InputName[Input de Nome]:::acao
+    ValidateInput{Validações}:::decisao
+    AddParticipant[Adiciona Participante]:::acao
+    UpdateUI[Atualiza Interface]:::acao
+    
+    %% Estados do Sorteio
+    CheckMin{Mínimo 3<br/>Participantes?}:::decisao
+    StartDraw[Inicia Sorteio]:::acao
+    DrawName[Sorteia Nome]:::acao
+    ShowResult[Exibe Resultado]:::acao
+    
+    %% Estados Finais
+    AllDrawn{Todos<br/>Sorteados?}:::decisao
+    End([Fim]):::evento
+    Reset[Reinicia Jogo]:::acao
+
+    %% Fluxo Principal
+    Start --> DOMLoaded
+    DOMLoaded --> InitElements --> SetupListeners
+    
+    %% Fluxo de Adição
+    SetupListeners --> InputName
+    InputName --> ValidateInput
+    ValidateInput -->|Inválido| InputName
+    ValidateInput -->|Válido| AddParticipant --> UpdateUI
+    
+    %% Fluxo de Sorteio
+    UpdateUI --> CheckMin
+    CheckMin -->|Não| InputName
+    CheckMin -->|Sim| StartDraw
+    StartDraw --> DrawName --> ShowResult --> AllDrawn
+    AllDrawn -->|Não| DrawName
+    AllDrawn -->|Sim| End
+    
+    %% Fluxo de Reset
+    End --> Reset
+    Reset --> Start
+```
+
+### 🛡️ Sistema de Validações
+
+1. **Validação de Nome**
+   - Não permite nomes vazios
+   - Não permite nomes duplicados
+   - Normaliza maiúsculas/minúsculas
+
+2. **Validação de Estado**
+   - Mínimo de 3 participantes para sorteio
+   - Bloqueio de adições após início
+   - Controle de sorteios restantes
+
+### 🎨 Manipulação Visual
+
+1. **Classes Dinâmicas**
+   ```javascript
+   li.classList.add('sorteado');     // Marca participante sorteado
+   nomeSpan.classList.add('oculto'); // Oculta nome após sorteio
+   ```
+
+2. **Elementos Visuais**
+   - GIF animado para participantes sorteados
+   - Botões com estados visuais
+   - Modal de confirmação
+
+### 🔑 Dicas para Iniciantes
+
+1. **Variáveis Globais**
+   - São declaradas no topo do arquivo
+   - Mantêm o estado do jogo
+   - Evite modificá-las diretamente
+
+2. **Funções Principais**
+   - Cada função tem uma responsabilidade única
+   - Nomes descritivos indicam o propósito
+   - Comentários explicam a lógica
+
+3. **Event Listeners**
+   - Aguardam o DOM carregar completamente
+   - Respondem a interações do usuário
+   - Mantêm o código organizado
+
+4. **Boas Práticas**
+   - Uso de constantes para mensagens
+   - Funções pequenas e focadas
+   - Validações preventivas
+   - Feedback constante ao usuário
+
+---
+
 ## 🗂️ Estrutura do Projeto
 
 ```
