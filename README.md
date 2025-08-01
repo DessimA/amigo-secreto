@@ -27,18 +27,26 @@ Esta é uma **aplicação web interativa** para realizar sorteios de *Amigo Secr
 
 ### 🎲 Sorteio Aleatório
 
+* Requer mínimo de 3 participantes para iniciar
 * Escolha aleatória entre os não sorteados
-* Nome em destaque no painel
+* Nome em destaque no painel com animação cyberpunk
+* Sistema de ocultação de resultados
 * Sem repetições na mesma rodada
 
 ### 🧩 Gerenciamento de Estado
 
-* Mensagens dinâmicas conforme o progresso
+* Mensagens dinâmicas e adaptativas:
+  * "Adicione mais amigos para começar!" (menos de 3 participantes)
+  * "Clique em Sortear para começar!" (3 ou mais participantes)
+  * Contagem regressiva de sorteios restantes
 * Botões com estados inteligentes (ativado/desativado conforme contexto)
+* Sistema de notificações para feedback
 
 ### 🔄 Reinício Seguro
 
-* Limpeza completa do jogo com confirmação
+* Modal de confirmação antes do reinício
+* Limpeza completa do jogo
+* Reset de todos os estados e animações
 * Pronto para uma nova rodada futurista
 
 ---
@@ -82,6 +90,7 @@ cd amigo-secreto
 .
 ├── assets/
 │   ├── amigo-secreto.png        # Background temático
+│   ├── hide-cyberpunk.gif       # Animação para participantes sorteados
 │   ├── play-game.png            # Ícone do botão sortear
 │   └── reload-game.png          # Ícone do botão reiniciar
 ├── app.js                       # Lógica principal (JS)
