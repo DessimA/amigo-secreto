@@ -3,29 +3,47 @@ let amigosSorteados = [];
 let jogoIniciado = false;
 
 // Elementos do DOM
+
 let nomeAmigoInput, btnAdd, btnSortear, btnReiniciar, listaAmigosUl, resultadoDiv, statusJogoDiv, notificacaoDiv, btnOcultarResultado;
+
+// Mensagens centralizadas
+const MSG = {
+    erroNomeVazio: 'Por favor, insira um nome.',
+    erroNomeDuplicado: 'Este nome já foi adicionado!',
+    erroAddAposSorteio: 'Não é possível adicionar amigos após o início do sorteio!',
+    statusInicial: 'Adicione amigos para começar',
+    statusTodosSorteados: 'Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.',
+    statusPronto: n => `${n} amigo(s) adicionado(s). Clique em "Sortear" para começar!`,
+    statusRestam: n => `Restam ${n} amigo(s) para sortear`,
+    alertaSortear: 'Adicione pelo menos um amigo para sortear.',
+    alertaTodosSorteados: 'Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.'
+};
+
+// Utilitário para atualizar innerHTML
+function setHTML(el, html) {
+    if (el) el.innerHTML = html;
+}
 
 function adicionarAmigo() {
     limparNotificacao();
     if (jogoIniciado) {
-        exibirNotificacao('Não é possível adicionar amigos após o início do sorteio!');
+        exibirNotificacao(MSG.erroAddAposSorteio);
         return;
     }
     const nome = nomeAmigoInput.value.trim();
     if (nome === '') {
-        exibirNotificacao('Por favor, insira um nome.');
+        exibirNotificacao(MSG.erroNomeVazio);
         nomeAmigoInput.focus();
         return;
     }
-    // Verificação robusta com normalização (case-insensitive)
     const nomeNormalizado = nome.toUpperCase();
     if (amigos.some(amigo => amigo.toUpperCase() === nomeNormalizado)) {
-        exibirNotificacao('Este nome já foi adicionado!');
+        exibirNotificacao(MSG.erroNomeDuplicado);
         nomeAmigoInput.value = '';
         nomeAmigoInput.focus();
         return;
     }
-    amigos.push(nome); // Armazena a versão original
+    amigos.push(nome);
     nomeAmigoInput.value = '';
     atualizarListaAmigos();
     atualizarControles();
@@ -48,7 +66,7 @@ function limparNotificacao() {
 }
 
 function atualizarListaAmigos() {
-    listaAmigosUl.innerHTML = '';
+    setHTML(listaAmigosUl, '');
     for (let i = 0; i < amigos.length; i++) {
         const amigo = amigos[i];
         const li = document.createElement('li');
@@ -61,33 +79,28 @@ function atualizarListaAmigos() {
 }
 
 function sortearAmigo() {
-    if (amigos.length === 0) {
-        alert('Adicione pelo menos um amigo para sortear.');
+    if (amigos.length < 3) {
+        alert('Cadastre pelo menos 3 pessoas para iniciar o sorteio.');
         return;
     }
-    
-    // Marcar que o jogo iniciou no primeiro sorteio
-    if (!jogoIniciado) {
-        jogoIniciado = true;
-    }
-    
+    if (!jogoIniciado) jogoIniciado = true;
     const amigosDisponiveis = amigos.filter(amigo => !amigosSorteados.includes(amigo));
-    
     if (amigosDisponiveis.length === 0) {
-        alert('Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.');
+        alert(MSG.alertaTodosSorteados);
         atualizarControles();
         atualizarStatus();
         return;
     }
-    
-    const indiceSorteado = Math.floor(Math.random() * amigosDisponiveis.length);
-    const amigoSorteado = amigosDisponiveis[indiceSorteado];
-    amigosSorteados.push(amigoSorteado);
-    
-    atualizarListaAmigos();
-    mostrarResultado(amigoSorteado);
-    atualizarControles();
-    atualizarStatus();
+    // Sorteia apenas um nome por clique
+    if (amigosDisponiveis.length > 0) {
+        const indiceSorteado = Math.floor(Math.random() * amigosDisponiveis.length);
+        const amigoSorteado = amigosDisponiveis[indiceSorteado];
+        amigosSorteados.push(amigoSorteado);
+        atualizarListaAmigos();
+        mostrarResultado(amigoSorteado);
+        atualizarControles();
+        atualizarStatus();
+    }
 }
 
 function reiniciarJogo() {
@@ -98,13 +111,11 @@ function reiniciarJogo() {
     
     amigos = [];
     amigosSorteados = [];
-    jogoIniciado = false; // Resetar o estado do jogo
-    
+    jogoIniciado = false;
     atualizarListaAmigos();
     mostrarResultado(null);
     atualizarControles();
     atualizarStatus();
-    
     nomeAmigoInput.value = '';
     nomeAmigoInput.focus();
 }
@@ -112,41 +123,47 @@ function reiniciarJogo() {
 function atualizarControles() {
     const amigosDisponiveis = amigos.filter(amigo => !amigosSorteados.includes(amigo));
     const todosForamSorteados = amigos.length > 0 && amigosDisponiveis.length === 0;
-    
-    // Botão Adicionar: desabilitado se o jogo iniciou
-    btnAdd.disabled = jogoIniciado;
-    nomeAmigoInput.disabled = jogoIniciado;
-    
-    // Botão Sortear: desabilitado se não há amigos ou todos já foram sorteados
-    btnSortear.disabled = amigos.length === 0 || todosForamSorteados;
-    
-    // Botão Reiniciar: sempre habilitado se há algum conteúdo
-    btnReiniciar.disabled = amigos.length === 0 && amigosSorteados.length === 0;
+    // Utilitário para setar estado de botões
+    function setDisabled(btn, cond) {
+        if (btn) btn.disabled = !!cond;
+    }
+    setDisabled(btnAdd, jogoIniciado);
+    setDisabled(nomeAmigoInput, jogoIniciado);
+    setDisabled(btnSortear, amigos.length < 3 || todosForamSorteados);
+    setDisabled(btnReiniciar, amigos.length === 0 && amigosSorteados.length === 0);
+
+    // Aviso mínimo de pessoas
+    const avisoMinimo = document.getElementById('avisoMinimo');
+    if (avisoMinimo) {
+        if (amigos.length < 3) {
+            avisoMinimo.textContent = 'Cadastre pelo menos 3 pessoas para iniciar o sorteio.';
+            avisoMinimo.style.display = 'block';
+        } else {
+            avisoMinimo.textContent = '';
+            avisoMinimo.style.display = 'none';
+        }
+    }
 }
 
 function mostrarResultado(amigo) {
     if (amigo) {
-        resultadoDiv.innerHTML = `<p class="result-name">${amigo}</p>`;
-        if (btnOcultarResultado) {
-            btnOcultarResultado.style.display = 'inline-block';
-        }
+        setHTML(resultadoDiv, `<p class="result-name">${amigo}</p>`);
+        if (btnOcultarResultado) btnOcultarResultado.style.display = 'inline-block';
     } else {
-        resultadoDiv.innerHTML = '<p class="waiting-message">Aguardando sorteio...</p>';
-        if (btnOcultarResultado) {
-            btnOcultarResultado.style.display = 'none';
-        }
+        setHTML(resultadoDiv, '<p class="waiting-message">Aguardando sorteio...</p>');
+        if (btnOcultarResultado) btnOcultarResultado.style.display = 'none';
     }
 }
 
 function atualizarStatus() {
     if (amigos.length === 0) {
-        statusJogoDiv.innerHTML = '<p class="status-message">Adicione amigos para começar</p>';
+        setHTML(statusJogoDiv, `<p class="status-message">${MSG.statusInicial}</p>`);
     } else if (amigos.length === amigosSorteados.length && amigos.length > 0) {
-        statusJogoDiv.innerHTML = '<p class="status-message">Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.</p>';
+        setHTML(statusJogoDiv, `<p class="status-message">${MSG.statusTodosSorteados}</p>`);
     } else if (!jogoIniciado) {
-        statusJogoDiv.innerHTML = `<p class="status-message">${amigos.length} amigo(s) adicionado(s). Clique em "Sortear" para começar!</p>`;
+        setHTML(statusJogoDiv, `<p class="status-message">${MSG.statusPronto(amigos.length)}</p>`);
     } else {
-        statusJogoDiv.innerHTML = `<p class="status-message">Restam ${amigos.length - amigosSorteados.length} amigo(s) para sortear</p>`;
+        setHTML(statusJogoDiv, `<p class="status-message">${MSG.statusRestam(amigos.length - amigosSorteados.length)}</p>`);
     }
 }
 
@@ -169,6 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btnOcultarResultado.style.display = 'none';
         });
     }
+
+    // Notifica se tentar clicar no botão sortear desabilitado
+    btnSortear.addEventListener('click', (e) => {
+        if (btnSortear.disabled) {
+            e.preventDefault();
+            return;
+        }
+        // Garante que apenas um sorteio ocorre por clique
+        sortearAmigo();
+    });
 
     nomeAmigoInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
