@@ -70,9 +70,19 @@ function atualizarListaAmigos() {
     for (let i = 0; i < amigos.length; i++) {
         const amigo = amigos[i];
         const li = document.createElement('li');
-        li.textContent = amigo;
+        li.className = 'amigo-item';
+        const nomeSpan = document.createElement('span');
+        nomeSpan.textContent = amigo;
+        nomeSpan.className = 'amigo-nome';
+        li.appendChild(nomeSpan);
         if (amigosSorteados.includes(amigo)) {
             li.classList.add('sorteado');
+            nomeSpan.classList.add('oculto');
+            const gif = document.createElement('img');
+            gif.src = 'assets/hide-cyberpunk.gif';
+            gif.alt = 'Participante sorteado';
+            gif.className = 'hide-cyberpunkgif';
+            li.appendChild(gif);
         }
         listaAmigosUl.appendChild(li);
     }

@@ -1,3 +1,35 @@
+/* Estilos para lista de amigos */
+.amigo-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+}
+
+.amigo-nome {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 38px;
+}
+
+.sorteado .amigo-nome.oculto {
+  visibility: hidden;
+}
+
+.hide-cyberpunkgif {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 38px;
+  width: auto;
+  z-index: 2;
+}
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
 
 * {
