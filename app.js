@@ -13,8 +13,8 @@ const MSG = {
     erroAddAposSorteio: 'Não é possível adicionar amigos após o início do sorteio!',
     statusInicial: 'Adicione amigos para começar',
     statusTodosSorteados: 'Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.',
-    statusPronto: n => `${n} amigo(s) adicionado(s). Clique em "Sortear" para começar!`,
-    statusRestam: n => `Restam ${n} amigo(s) para sortear`,
+    statusPronto: n => `${n} ${n === 1 ? 'amigo' : 'amigos'} ${n === 1 ? 'adicionado' : 'adicionados'}. ${n < 3 ? 'Adicione mais amigos para começar!' : 'Clique em "Sortear" para começar!'}`,
+    statusRestam: n => `${n === 1 ? 'Resta' : 'Restam'} ${n} ${n === 1 ? 'amigo' : 'amigos'} para sortear`,
     alertaSortear: 'Adicione pelo menos um amigo para sortear.',
     alertaTodosSorteados: 'Todos os amigos já foram sorteados! Reinicie o jogo para jogar novamente.'
 };
